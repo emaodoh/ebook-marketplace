@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}DISmart Books{% endblock %}</title>
+  <link rel="stylesheet" href="/static/marketplace.css">
+</head>
+<body>
+  <div class="announcement"><span>✓ Secure ebook library</span><span>⚡ Free books to get started</span></div>
+  <header class="site-header"><a class="brand" href="/" aria-label="DISmart Books home"><span class="brand-mark">D</span><span>DISmart <b>Books</b></span></a>
+    <nav><a href="/">Browse</a><a href="/?sort=popular">Best sellers</a>{% if request.url.path.startswith('/books/') and request.url.path.split('/')[-1].isdigit() %}<form action="/cart/add/{{ request.url.path.split('/')[-1] }}" method="post"><button class="button small">Add to cart</button></form>{% endif %}<a href="/cart">Cart{% if request.session.get('cart') %} ({{ request.session.get('cart')|length }}){% endif %}</a>{% if user and user.role == 'admin' %}<a href="/admin">Admin</a>{% elif user and user.role == 'seller' %}<a href="/seller">Seller dashboard</a>{% else %}<a href="/seller/login">Seller login</a><a class="button small" href="/seller/register">Become a seller</a>{% endif %}</nav>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer><div class="container footer-inner"><a class="brand" href="/"><span class="brand-mark">D</span><span>DISmart <b>Books</b></span></a><span>A free reading marketplace for every learner.</span><span>© DISmart Books</span></div></footer>
+</body></html>
